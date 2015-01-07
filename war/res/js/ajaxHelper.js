@@ -44,12 +44,12 @@ function ajaxSport() {
 				$("#loader_modal").modal("show");
 			}
 		})
-		.success(function( data ) {
+		.success(function( data,status ) {
 			console.log('recherche success '+action);
 			$("#loader_modal").modal("hide");
 			callbackSuccess(data);
 		})
-		.error(function( data ) {
+		.error(function( data,status ) {
 			console.log('recherche error '+action);
 			$("#loader_modal").find('.modal-content').html('<span style="color:red;">HTTP ERROR</span>');
 			callbackError(data);
