@@ -47,7 +47,16 @@ public class PlanServlet extends HttpServlet{
 	}
 	
 	public void addPlan(){
+		
+		plan.setTitle((String)jC.getJsonObject().get("title"));
+		plan.setDescription((String)jC.getJsonObject().get("description"));
+		plan.setDomain((String)jC.getJsonObject().get("domain"));
+		
 		exo = new Exercice((String)jC.getJsonObject().get("title"), (String)jC.getJsonObject().get("description"), (int)jC.getJsonObject().get("duration"));
+		
+		
+		
+		
 	}
 	
 	public void details(){

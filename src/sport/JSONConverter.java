@@ -5,9 +5,13 @@ package sport;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
+import org.mortbay.util.ajax.JSON;
+
+import sport.models.Exercice;
 
 /**
  * @author rhumblot
@@ -41,5 +45,19 @@ public class JSONConverter {
 
 	public JSONObject getJsonObject() {
 		return jsonObject;
+	}
+	
+	public Exercice getExercice(JSONObject jO){
+		JSONParser parser = new JSONParser();
+		JSONArray array = null;
+		try {
+			 array = (JSONArray)parser.parse(jO.toJSONString());
+		} catch (ParseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		System.out.println(array.get(0).toString());
+		return null;
 	}
 }
