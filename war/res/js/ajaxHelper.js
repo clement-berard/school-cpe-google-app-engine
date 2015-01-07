@@ -28,29 +28,17 @@ function ajaxSport() {
 		this.defaultAjax(this.url_compte,action,data,callbackSuccess,callbackError,callLoader);
 	},
 
+	this.messageAccueil = function (callbackSuccess,callbackError,callLoader) {
+		this.defaultAjax(this.url_accueil,"getMessage",{},callbackSuccess,callbackError,callLoader);
+	},
+
 	this.defaultAjax = function (url,action,data,callbackSuccess,callbackError,callLoader){
-
-//		$.ajax({
-//		type: this.method,
-//		dataType : this.dataType,
-//		url: this.base_url+url,
-//		beforeSend: function( xhr ) {
-
-//		}
-//		})
-//		.success(function( data ) {
-//		console.log('recherche success '+action);
-//		callbackSuccess();
-//		})
-//		.error(function( data ) {
-//		console.log('recherche error '+action);
-//		callbackError();
-//		});
 
 		$.ajax({
 			type: this.method,
 			dataType : this.dataType,
-			url: "http://ip.jsontdsest.com/",
+			url: this.base_url+url,
+			data : {method:action,data:data},
 			beforeSend: function( xhr ) {
 				callLoader();
 				$("#loader_modal").modal("show");
@@ -66,6 +54,26 @@ function ajaxSport() {
 			$("#loader_modal").find('.modal-content').html('<span style="color:red;">HTTP ERROR</span>');
 			callbackError(data);
 		});
+
+//		$.ajax({
+//		type: this.method,
+//		dataType : this.dataType,
+//		url: "http://ip.jsontdsest.com/",
+//		beforeSend: function( xhr ) {
+//		callLoader();
+//		$("#loader_modal").modal("show");
+//		}
+//		})
+//		.success(function( data ) {
+//		console.log('recherche success '+action);
+//		$("#loader_modal").modal("hide");
+//		callbackSuccess(data);
+//		})
+//		.error(function( data ) {
+//		console.log('recherche error '+action);
+//		$("#loader_modal").find('.modal-content').html('<span style="color:red;">HTTP ERROR</span>');
+//		callbackError(data);
+//		});
 	}
 
 
