@@ -7,8 +7,10 @@
     <title>Bootstrap 101 Template</title>
 
     <!-- Bootstrap -->
-    <link href="css/bootstrap.min.css" rel="stylesheet">
-    <link href="css/js.css" rel="stylesheet">
+    <link href="../res/css/bootstrap.min.css" rel="stylesheet">
+    <link href="../res/css/js.css" rel="stylesheet">
+    <link href="../res/css/landing-page.css" rel="stylesheet">
+    
       
 
   </head>
@@ -95,10 +97,38 @@
         </div>
       </nav>
       <!-- ------------------------------------------- FOOTER ZONE END ------------------------------------------- -->
-    
-    <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
-    <script src="js/jquery-1.11.1.min.js"></script>
-    <!-- Include all compiled plugins (below), or include individual files as needed -->
-    <script src="js/bootstrap.min.js"></script>
+    <div id="loader_modal" class="modal fade bs-example-modal-sm"
+		tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel"
+		aria-hidden="true">
+		<div class="modal-dialog modal-sm">
+			<div class="modal-content">Loading...</div>
+		</div>
+	</div>
+	<!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+	<script src="../res/js/jquery-1.11.1.min.js"></script>
+	<!-- Include all compiled plugins (below), or include individual files as needed -->
+	<script src="../res/js/bootstrap.min.js"></script>
+	<script src="../res/lib/select2-3.5.1/select2.min.js"></script>
+	<script src="../res/js/ajaxHelper.js"></script>
+
+	<script type="text/javascript">
+	
+		var ajaxSport = new ajaxSport();
+		
+		ajaxSport.recherche("le teeeete","data",callbacSuccess,callbackError,loaderFunc);
+		
+		function callbacSuccess(data){
+			alert(data.ip);
+		}
+		
+		function callbackError(){}
+		function loaderFunc(){}
+		
+		
+		
+	
+	
+	
+	</script>
   </body>
 </html>

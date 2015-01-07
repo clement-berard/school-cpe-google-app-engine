@@ -1,27 +1,87 @@
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
-<!-- The HTML 4.01 Transitional DOCTYPE declaration-->
-<!-- above set at the top of the file will set     -->
-<!-- the browser's rendering engine into           -->
-<!-- "Quirks Mode". Replacing this declaration     -->
-<!-- with a "Standards Mode" doctype is supported, -->
-<!-- but may lead to some differences in layout.   -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Bootstrap 101 Template</title>
 
-<html>
-  <head>
-    <meta http-equiv="content-type" content="text/html; charset=UTF-8">
-    <title>Hello App Engine</title>
-  </head>
+<!-- Bootstrap -->
+<link href="../res/css/bootstrap.min.css" rel="stylesheet">
+<link href="../res/lib/select2-3.5.1/select2.css" rel="stylesheet">
 
-  <body>
-    <h1>Hello App Engine!</h1>
+<link href="../res/css/js.css" rel="stylesheet">
+<link href="../res/css/landing-page.css" rel="stylesheet">
+
+
+
+</head>
+<body>
+
+	<!-- ------------------------------------------- HEADER ZONE ------------------------------------------- -->
+
+
+
+	<!-- Header -->
+	<a name="about"></a>
+	<div class="intro-header">
+		<div class="container">
+
+			<div class="row">
+				<div class="col-lg-12">
+					<div class="intro-message">
+						<h1>Personal Trainer</h1>
+						<hr class="intro-divider">
+						<a href="pages/ha-search-screen.html"><span
+							class="glyphicon glyphicon-chevron-right next-step"
+							aria-hidden="true"></span></a>
+
+					</div>
+				</div>
+			</div>
+
+		</div>
+		<!-- /.container -->
+
+	</div>
+	<!-- /.intro-header -->
+
+	<!-- Small modal -->
+
+	<div id="loader_modal" class="modal fade bs-example-modal-sm"
+		tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel"
+		aria-hidden="true">
+		<div class="modal-dialog modal-sm">
+			<div class="modal-content">Chargement en cours...</div>
+		</div>
+	</div>
+
+	<!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+	<script src="../res/js/jquery-1.11.1.min.js"></script>
+	<!-- Include all compiled plugins (below), or include individual files as needed -->
+	<script src="../res/js/bootstrap.min.js"></script>
+	<script src="../res/lib/select2-3.5.1/select2.min.js"></script>
+	<script src="../res/js/ajaxHelper.js"></script>
+
+	<script type="text/javascript">
 	
-    <table>
-      <tr>
-        <td colspan="2" style="font-weight:bold;">Available Servlets:</td>        
-      </tr>
-      <tr>
-        <td><a href="sport">Sport</a></td>
-      </tr>
-    </table>
-  </body>
+		var ajaxSport = new ajaxSport();
+		
+		ajaxSport.recherche("le teeeete","data",callbacSuccess,callbackError,loaderFunc);
+		
+		function callbacSuccess(data){
+			alert(data.ip);
+		}
+		
+		function callbackError(){}
+		function loaderFunc(){}
+		
+		
+	
+	
+	</script>
+
+
+
+</body>
 </html>
