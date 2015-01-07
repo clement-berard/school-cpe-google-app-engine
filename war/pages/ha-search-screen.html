@@ -41,50 +41,18 @@
           <h3> Your Domain</h3>
       </div>
       
-      <div class=" col-md-12 col-sm-12 col-xs-12" style="margin-bottom:80px">
-          <div class=" col-md-3 col-sm-3 col-xs-3 ">
-            <button type="submit" class="btn btn-default btn-lg"><span class="glyphicon glyphicon-tree-deciduous"></span></button> <label> RUN </label>
-          </div>
-                    <div class=" col-md-3 col-sm-3 col-xs-3 ">
-            <button type="submit" class="btn btn-default btn-lg"><span class="glyphicon glyphicon-tree-deciduous"></span></button> <label> RUN </label>
-           </div>
-                    <div class=" col-md-3 col-sm-3 col-xs-3 ">
-            <button type="submit" class="btn btn-default btn-lg"><span class="glyphicon glyphicon-tree-deciduous"></span></button> <label> RUN </label>
-           </div>
-                    <div class=" col-md-3 col-sm-3 col-xs-3 ">
-            <button type="submit" class="btn btn-default btn-lg"><span class="glyphicon glyphicon-tree-deciduous"></span></button> <label> RUN </label>
-           </div>
+      <div class=" col-md-12" style="margin-bottom:80px">
+      
+      	<button type="submit" class="col-md-3 btn btn-default btn-lg"><span class="glyphicon glyphicon-tree-deciduous"></span> RUN</button> 
+      	      	<button type="submit" class="col-md-3 btn btn-default btn-lg"><span class="glyphicon glyphicon-tree-deciduous"></span> RUN</button> 
+      	      	<button type="submit" class="col-md-3 btn btn-default btn-lg"><span class="glyphicon glyphicon-tree-deciduous"></span> RUN</button> 
+      	      	<button type="submit" class="col-md-3 btn btn-default btn-lg"><span class="glyphicon glyphicon-tree-deciduous"></span> RUN</button> 
        </div>
       
-      <div class=" col-md-12 col-sm-12 col-xs-12 " style="margin-bottom:80px">
-          <div class=" col-md-3 col-sm-3 col-xs-3 ">
-            <button type="submit" class="btn btn-default btn-lg"><span class="glyphicon glyphicon-tree-deciduous"></span></button> <label> RUN </label>
-          </div>
-                    <div class=" col-md-3 col-sm-3 col-xs-3 ">
-                    <button type="submit" class="btn btn-default btn-lg"><span class="glyphicon glyphicon-tree-deciduous"></span></button> <label> RUN </label>
-           </div>
-                    <div class=" col-md-3 col-sm-3 col-xs-3 ">
-            <button type="submit" class="btn btn-default btn-lg"><span class="glyphicon glyphicon-tree-deciduous"></span></button> <label> RUN </label>
-           </div>
-                    <div class=" col-md-3 col-sm-3 col-xs-3 ">
-            <button type="submit" class="btn btn-default btn-lg"><span class="glyphicon glyphicon-tree-deciduous"></span></button> <label> RUN </label>
-           </div>
-       </div>
+    
       
-      <div class=" col-md-12 col-sm-12 col-xs-12 ">
-          <div class=" col-md-3 col-sm-3 col-xs-3 ">
-            <button type="submit" class="btn btn-default btn-lg"><span class="glyphicon glyphicon-tree-deciduous"></span></button> <label> RUN </label>
-          </div>
-                    <div class=" col-md-3 col-sm-3 col-xs-3 ">
-            <button type="submit" class="btn btn-default btn-lg"><span class="glyphicon glyphicon-tree-deciduous"></span></button> <label> RUN </label>
-           </div>
-                    <div class=" col-md-3 col-sm-3 col-xs-3 ">
-            <button type="submit" class="btn btn-default btn-lg"><span class="glyphicon glyphicon-tree-deciduous"></span></button> <label> RUN </label>
-           </div>
-                    <div class=" col-md-3 col-sm-3 col-xs-3 ">
-            <button type="submit" class="btn btn-default btn-lg"><span class="glyphicon glyphicon-tree-deciduous"></span></button> <label> RUN </label>
-           </div>
-       </div>
+    
+      
       
       
       <!-- ------------------------------------------- FOOTER ZONE ------------------------------------------- -->
@@ -105,24 +73,21 @@
 		</div>
 	</div>
 	<!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
-	<script src="../res/js/jquery-1.11.1.min.js"></script>
+	<script src="https://code.jquery.com/jquery-2.1.3.min.js"></script>
 	<!-- Include all compiled plugins (below), or include individual files as needed -->
 	<script src="../res/js/bootstrap.min.js"></script>
 	<script src="../res/lib/select2-3.5.1/select2.min.js"></script>
 	<script src="../res/js/ajaxHelper.js"></script>
+		<script src="../res/js/recherche.js"></script>
+	
 
 	<script type="text/javascript">
 	
 		var ajaxSport = new ajaxSport();
 		
-		ajaxSport.recherche("getAllSports",{},callbacSuccess,callbackError,loaderFunc);
+		ajaxSport.recherche("getAllSports",{},callbackSuccess,callbackError,loaderFunc);
 		
-		function callbacSuccess(data){
-			
-		}
 		
-		function callbackError(){}
-		function loaderFunc(){}
 		
 		
 		

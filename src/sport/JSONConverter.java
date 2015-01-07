@@ -30,7 +30,8 @@ public class JSONConverter {
 		
 		method = request.getParameter("method");
 		dataString = (String)request.getParameter("data");
-		
+		if(dataString == null)
+			dataString = "{}";
 		JSONParser parser = new JSONParser();
 		try {
 			jsonObject = (JSONObject)parser.parse(dataString);
