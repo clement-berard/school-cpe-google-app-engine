@@ -20,6 +20,9 @@ import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 
+import sport.models.Exercice;
+import sport.models.Plan;
+
 import com.google.appengine.labs.repackaged.org.json.JSONException;
 
 /**
@@ -29,33 +32,22 @@ import com.google.appengine.labs.repackaged.org.json.JSONException;
 @SuppressWarnings("serial")
 public class PlanServlet extends HttpServlet{
 	
-	// Name of method to call 
-	private String method = null;
-	// String in format JSon
-	private String dataString;
-	JSONObject jsonObject;
+	private JSONConverter jC;
+	private Exercice exo;
+	private Plan plan;
 	
 	public void doPost( HttpServletRequest request, HttpServletResponse response ) throws ServletException, IOException{
-		method = request.getParameter("method");
-		dataString = (String)request.getParameter("data");
+		jC = new JSONConverter(request);
 		
-		JSONParser parser=new JSONParser();
-		try {
-			jsonObject = (JSONObject)parser.parse(dataString);
-		} catch (ParseException e) {
-			e.printStackTrace();
-		}
-		
-		if(method.equalsIgnoreCase("addPlan")){
+		if(jC.getMethod().equalsIgnoreCase("addPlan")){
 			addPlan();
 		} else {
 			details();
 		}
-		
 	}
 	
 	public void addPlan(){
-		
+		exo = new Exercice((String)jC.getJsonObject().get("title"), (String)jC.getJsonObject().get("description"), (int)jC.getJsonObject().get("duration"));
 	}
 	
 	public void details(){
