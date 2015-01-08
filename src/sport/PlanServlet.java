@@ -41,25 +41,43 @@ public class PlanServlet extends HttpServlet{
 		
 		if(jC.getMethod().equalsIgnoreCase("addPlan")){
 			addPlan();
+			addExercice();
 		} else {
 			details();
 		}
 	}
 	
 	public void addPlan(){
-		
+		plan = new Plan();
 		plan.setTitle((String)jC.getJsonObject().get("title"));
 		plan.setDescription((String)jC.getJsonObject().get("description"));
 		plan.setDomain((String)jC.getJsonObject().get("domain"));
-		
-		exo = new Exercice((String)jC.getJsonObject().get("title"), (String)jC.getJsonObject().get("description"), (int)jC.getJsonObject().get("duration"));
-		
-		
-		
-		
+		plan.Save();
 	}
 	
 	public void details(){
 		
+	}
+	
+	public void addExercice(){
+		
+		String title;
+		String desc;
+		String dur;
+		int numberExos = Integer.parseInt((String)jC.getJsonObject().get("number"));
+		
+		for(int i =1; i<(numberExos+1); i++){
+			title = "exos[" + i + "][title]";
+			desc = "exos[" + i + "][description]";
+			dur = "exos[" + i + "][duration]";
+			System.out.println((String)jC.getJsonObject().get(dur));
+			exo = new Exercice();
+			exo.setTitle((String)jC.getJsonObject().get(title));
+			exo.setDescription((String)jC.getJsonObject().get(desc));
+			exo.setDuration(30);
+			exo.setIdPlan(plan.getId());
+			exo.Save();
+		}
+		System.out.println();
 	}
 }

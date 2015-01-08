@@ -18,16 +18,23 @@ public class Plan {
 	private String title;
 	private String description;
 	private String domain;
-	private List<Exercice> exos;
+	private long id;
 	
+	public long getId() {
+		return id;
+	}
+
 	private final DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();;	
 	
-	public Plan(String title, String description, String domain, List<Exercice> exos) {
+	public Plan(){
+		
+	}
+	
+	public Plan(String title, String description, String domain) {
 		super();
 		this.title = title;
 		this.description = description;
 		this.domain = domain;
-		this.exos = exos;
 	}
 	
 	public String getTitle() {
@@ -48,27 +55,15 @@ public class Plan {
 	public void setDomain(String domain) {
 		this.domain = domain;
 	}
-	public List<Exercice> getExos() {
-		return exos;
-	}
-	public void setExos(List<Exercice> exos) {
-		this.exos = exos;
-	}
 	
-	public void addExercice(Exercice e){
-		this.exos.add(e);
-	}
-	
-	
-	public void SavePlan(){
+	public void Save(){
 		
 		Entity plan = new Entity("Plan");
-		plan.setProperty(title.toString(), this.title);
-		plan.setProperty(description.toString(), this.description );
-		plan.setProperty(domain.toString(), this.domain);
-		plan.setProperty("exos", this.exos);
-		
+		plan.setProperty("title", this.title);
+		plan.setProperty("description", this.description );
+		plan.setProperty("domain", this.domain);
 		datastore.put(plan);
+		this.id = plan.getKey().getId();
 	}
 	
 }
