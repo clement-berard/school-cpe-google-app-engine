@@ -57,6 +57,22 @@ public class RechercheServlet extends HttpServlet{
 				e.printStackTrace();
 			}
 		}
+		else if(jC.getMethod().equalsIgnoreCase("getSearchPlan")){
+			try {
+				getSearchPlan(response,request,jC);
+			} catch (JSONException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+		else if(jC.getMethod().equalsIgnoreCase("getSearchExercices")){
+			try {
+				getSearchExercices(response,request,jC);
+			} catch (JSONException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
 	}
 
 	private void getAllSports(HttpServletResponse resp) throws JSONException, IOException {
@@ -90,7 +106,7 @@ public class RechercheServlet extends HttpServlet{
 		int ptr = 0;
 		StringBuilder builder = new StringBuilder();
 		while ((ptr = is.read()) != -1) {
-		    builder.append((char) ptr);
+			builder.append((char) ptr);
 		}
 		String xml = builder.toString();
 		JSONObject jsonObject = XML.toJSONObject(xml);
@@ -98,6 +114,38 @@ public class RechercheServlet extends HttpServlet{
 		resp.setContentType("application/json");
 		resp.getWriter().write(jsonPrettyPrintString.toString());
 		resp.getWriter().close();
+
+	}
+
+
+	private void getSearchPlan(HttpServletResponse resp,HttpServletRequest req, JSONConverter jC) throws JSONException, IOException {
+
+
+		String term  = (String) jC.getJsonObject().get("term");
+		DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
+
+		Query q = new Query("user");
+		q.addFilter("login", Query.FilterOperator.EQUAL, term);
+
+		PreparedQuery pq = datastore.prepare(q);
+
+		if(pq.countEntities() > 0){
+			Entity e = pq.asSingleEntity();
+			// redirect
+			resp.getWriter().println(e.getProperty("prenom"));
+			resp.sendRedirect("/index.html");
+		}
+
+
+
+
+	}
+
+	private void getSearchExercices(HttpServletResponse resp, HttpServletRequest req, JSONConverter jC2) throws JSONException, IOException {
+
+
+
+
 
 	}
 

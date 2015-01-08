@@ -42,6 +42,15 @@ http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
 		<url-pattern>/entrainement</url-pattern>
 	</servlet-mapping>
 	
+	<servlet>
+		<servlet-name>compte</servlet-name>
+		<servlet-class>sport.CompteServlet</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>compte</servlet-name>
+		<url-pattern>/compte</url-pattern>
+	</servlet-mapping>
+	
 
 	<welcome-file-list>
 		<welcome-file>index.html</welcome-file>
