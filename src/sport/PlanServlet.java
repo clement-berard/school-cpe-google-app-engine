@@ -23,6 +23,11 @@ import org.json.simple.parser.ParseException;
 import sport.models.Exercice;
 import sport.models.Plan;
 
+import com.google.appengine.api.datastore.DatastoreService;
+import com.google.appengine.api.datastore.DatastoreServiceFactory;
+import com.google.appengine.api.datastore.Entity;
+import com.google.appengine.api.datastore.PreparedQuery;
+import com.google.appengine.api.datastore.Query;
 import com.google.appengine.labs.repackaged.org.json.JSONException;
 
 /**
@@ -36,27 +41,34 @@ public class PlanServlet extends HttpServlet{
 	private Exercice exo;
 	private Plan plan;
 	
+	private final DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
+	
 	public void doPost( HttpServletRequest request, HttpServletResponse response ) throws ServletException, IOException{
 		jC = new JSONConverter(request);
 		
 		if(jC.getMethod().equalsIgnoreCase("addPlan")){
 			addPlan();
-			addExercice();
+			response.setContentType("application/json");
+			JSONObject jsonToSend;
+			jsonToSend=new JSONObject();
+			jsonToSend.put("message", "Enregistrement réussi");
+			response.getWriter().write(jsonToSend.toString());
+			response.getWriter().close();
+			
 		} else {
-			details();
+			details(response);
 		}
 	}
 	
 	public void addPlan(){
+		CacheManager cache = new CacheManager();
+		
 		plan = new Plan();
 		plan.setTitle((String)jC.getJsonObject().get("title"));
 		plan.setDescription((String)jC.getJsonObject().get("description"));
 		plan.setDomain((String)jC.getJsonObject().get("domain"));
 		plan.Save();
-	}
-	
-	public void details(){
-		
+		addExercice();
 	}
 	
 	public void addExercice(){
@@ -64,20 +76,48 @@ public class PlanServlet extends HttpServlet{
 		String title;
 		String desc;
 		String dur;
+		String durSec;
 		int numberExos = Integer.parseInt((String)jC.getJsonObject().get("number"));
 		
 		for(int i =1; i<(numberExos+1); i++){
 			title = "exos[" + i + "][title]";
 			desc = "exos[" + i + "][description]";
 			dur = "exos[" + i + "][duration]";
+			durSec = "exos[" + i + "][durationSec]";
 			System.out.println((String)jC.getJsonObject().get(dur));
 			exo = new Exercice();
 			exo.setTitle((String)jC.getJsonObject().get(title));
 			exo.setDescription((String)jC.getJsonObject().get(desc));
-			exo.setDuration(30);
+			exo.setDuration((String)jC.getJsonObject().get(dur));
+			exo.setDurationSec(Integer.parseInt((String)jC.getJsonObject().get(durSec)));
 			exo.setIdPlan(plan.getId());
 			exo.Save();
 		}
 		System.out.println();
+	}
+	
+	@SuppressWarnings("unchecked")
+	public void details(HttpServletResponse response) throws IOException{
+		// Utilisation Query afin de rassembler les éléments a appeler/filter
+
+		Query q = new Query("exercice");
+		// Récupération du résultat de la requète à l'aide de PreparedQuery
+		PreparedQuery pq = datastore.prepare(q);
+		List<String> myList = new ArrayList<String>();
+		JSONObject obj;
+		JSONArray objArray = new JSONArray();
+		for (Entity result : pq.asIterable()) {
+			obj = new JSONObject();
+			obj.put("title", result.getProperty("title").toString());
+			obj.put("description", result.getProperty("description").toString());
+			obj.put("idPlan", result.getProperty("title").toString());
+			obj.put("duration", result.getProperty("duration").toString());
+			obj.put("durationSec", result.getProperty("durationSec"));
+			objArray.add(obj);
+		}
+		response.setContentType("application/json");
+		response.getWriter().write(objArray.toString());
+		response.getWriter().close();
+		
 	}
 }

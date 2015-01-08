@@ -58,7 +58,7 @@ public class Plan {
 	
 	public void Save(){
 		
-		Entity plan = new Entity("Plan");
+		Entity plan = new Entity("plan");
 		plan.setProperty("title", this.title);
 		plan.setProperty("description", this.description );
 		plan.setProperty("domain", this.domain);

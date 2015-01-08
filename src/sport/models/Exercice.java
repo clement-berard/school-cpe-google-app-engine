@@ -18,8 +18,10 @@ public class Exercice {
 	private long idPlan;
 	private String title;
 	private String description;
-	private int duration;
+	private String duration;
+	private int durationSec;
 	
+
 	private final DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();;
 	
 	/**
@@ -28,7 +30,7 @@ public class Exercice {
 	 * @param description
 	 * @param duration
 	 */
-	public Exercice(String title, String description, int duration) {
+	public Exercice(String title, String description, String duration) {
 		super();
 		this.title = title;
 		this.description = description;
@@ -50,10 +52,10 @@ public class Exercice {
 	public void setDescription(String description) {
 		this.description = description;
 	}
-	public int getDuration() {
+	public String getDuration() {
 		return duration;
 	}
-	public void setDuration(int duration) {
+	public void setDuration(String duration) {
 		this.duration = duration;
 	}
 	public long getIdPlan() {
@@ -62,13 +64,22 @@ public class Exercice {
 	public void setIdPlan(long idPlan) {
 		this.idPlan = idPlan;
 	}
+	public int getDurationSec() {
+		return durationSec;
+	}
+
+	public void setDurationSec(int durationSec) {
+		this.durationSec = durationSec;
+	}
 	
 	public void Save(){
 		
-		Entity exo = new Entity("Exercice");
+		Entity exo = new Entity("exercice");
 		exo.setProperty("title", this.title);
-		exo.setProperty("description", this.description );
+		exo.setProperty("description", this.description);
 		exo.setProperty("idPlan", this.idPlan);
+		exo.setProperty("duration", this.duration);
+		exo.setProperty("durationSec", this.durationSec);
 		datastore.put(exo);
 	}
 	
