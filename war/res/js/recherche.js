@@ -1,7 +1,13 @@
 var ajaxSport = new ajaxSport();
 
+function getAllListSport(){
+	ajaxSport.recherche("getAllSports",{},callbackSuccessItemsSports,callbackError,loaderFunc);
+}
+
 function callbackSuccessItemsSports(data){
 	console.log(data);
+	$('.content_frame').hide();
+	$('#content_sports_inner').html('');
 	$('#content_sports').fadeIn();
 	var size = Object.keys(data).length;
 //	var size = parseInt(5);
@@ -10,7 +16,7 @@ function callbackSuccessItemsSports(data){
 	if(size != 0){
 		// ajout des lignes
 		for(i = 1;i <= nbLigne;i++){
-			$('<div/>', {id: 'id_sport_line_'+i,class : 'col-md-12',style : 'margin-bottom: 1%'}).appendTo('#content_sports');
+			$('<div/>', {id: 'id_sport_line_'+i,class : 'col-md-12',style : 'margin-bottom: 1%'}).appendTo('#content_sports_inner');
 		}
 		// ajout des sports
 		var ligne_en_cours = 1;
@@ -23,18 +29,11 @@ function callbackSuccessItemsSports(data){
 			i++;
 		});
 		functionForListSports();
-//		$('<div/>', {
-//		id: 'foo',
-//		href: 'http://google.com',
-//		title: 'Become a Googler',
-//		rel: 'external',
-//		text: 'Go to Google!'
-//		}).appendTo('#content_sports');
 	}
 
 
 }
-
+// callback vide par defaut
 function callbackError(){}
 function loaderFunc(){}
 
@@ -53,13 +52,28 @@ function functionForListSports(){
 
 
 $( document ).ready(function() {
+	
+	
+	// quand on clique sur le bouton rechercher
 	$( "#form_search_everything" ).submit(function( event ) {
 		event.preventDefault();
+		var exos = $('#sport_traning_search_exos');
+		var plans = $('#sport_traning_search_plan');
+		var input_s = $('#search_value_input');
+		var term_title = $('#sport_traning_search_term');
 		$('.content_frame').hide();
 		$('#sport_traning_search_news').html('');
-		//
+		// pour les news
 		ajaxSport.newsrss(getFeedsCallback,getFeedsCallbackError,getFeedsCallbackLoader);
-
+		// plans and results
+		if(input_s.val() == ''){
+			exos.html('').html('<span style="color:red">No search term</span>');
+			plans.html('').html('<span style="color:red">No search term</span>');
+			term_title.html('').html('nothing');
+		}
+		else{
+			term_title.html('').html(input_s.val());
+		}
 
 		$('#sport_traning_search').fadeIn();
 
@@ -81,7 +95,7 @@ function getFeedsCallback(data){
 			target : '_blank'
 		}).appendTo('#sport_traning_search_news');
 		$("#search_link_"+key).append('<br>');
-		
+
 	});
 
 }

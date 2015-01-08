@@ -16,6 +16,24 @@ public class CacheManager {
 
 	}
 
+
+	public void setValue(String k, String v){
+		MemcacheService syncCache = MemcacheServiceFactory.getMemcacheService();
+		syncCache.put(k, v); // populate cache
+	}
+
+	public String getValue(String k){
+		MemcacheService syncCache = MemcacheServiceFactory.getMemcacheService();
+		String value = (String) syncCache.get(k); // read from cache
+		return value;
+	}
+	
+	public void deleteValue(String k){
+		MemcacheService syncCache = MemcacheServiceFactory.getMemcacheService();
+		syncCache.delete(k);
+	}
+
+
 	public String getValueCache(String entity,String key){
 		MemcacheService syncCache = MemcacheServiceFactory.getMemcacheService();
 		String value = (String) syncCache.get(entity+"-"+key); // read from cache
@@ -31,8 +49,8 @@ public class CacheManager {
 		}
 
 	}
-	
-	
+
+
 
 
 
