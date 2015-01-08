@@ -34,14 +34,14 @@
       </nav>
       <!-- ------------------------------------------- HEADER ZONE END ------------------------------------------- -->
       
-      <form role="form">
+      <form role="form" id="target">
           <div class="row" style="margin-bottom:10px">
               <div class=" col-md-1 col-sm-0 col-xs-0 " ></div>
              <div class=" col-md-2 col-sm-2 col-xs-12 ">
                 <label for="inputTitle">Title</label>  
              </div>
             <div class=" col-md-6 col-sm-6 col-xs-12 ">
-                <input type="email" class="form-control" id="inputTitle" placeholder="Enter your Training plan title">
+                <input type="text" class="form-control ser1" id="inputTitle" name="title" placeholder="Enter your Training plan title">
              </div>
               <div class=" col-md-3 col-sm-4 hidden-xs">
                   <div class=" col-md-4 col-sm-4 hidden-xs">
@@ -56,7 +56,7 @@
             </div>
             <div class=" col-md-6 col-sm-6 col-xs-12 ">
                 <!--<input type="email" class="form-control" id="inputDescription" placeholder="Enter your Training plan Description">-->
-                <textarea id="inputDescription" class="form-control" rows="4"></textarea>
+                <textarea id="inputDescription" name="description" class="form-control ser1" rows="4" ></textarea>
             </div>
         </div>
         <div class="row" style="margin-top:10px">
@@ -66,7 +66,7 @@
             </div>
             <div class=" col-md-6 col-sm-6 col-xs-12 " >
                 <p>
-                    <select id="e1" class="select2-container populate" style="width:100%">
+                    <select id="e1" class="select2-container populate ser1" style="width:100%" name="domain">
                         <option value="Running">Running</option>
                         <option value="Volleyball">Volleyball</option>
                         <option value="Boxe">Boxe</option>
@@ -82,7 +82,7 @@
               
               <div class="row">
                   <div class=" col-md-1 col-sm-1 col-xs-1 " >
-                       <button type="button" class="btn btn-success">Add an Exercice</button>
+                       <button type="button" class="btn btn-success" id="addExercice">Add an Exercice</button>
                    </div>
                  <div class=" col-md-12 col-sm-12 col-xs-12 " ></div>
               </div>
@@ -92,15 +92,15 @@
                         <label for="titleDescription">Ex. Title</label>  
                     </div>
                     <div class=" col-md-6 col-sm-6 col-xs-12 ">
-                        <input type="email" class="form-control" id="titleDescription" placeholder="Enter your exercice title">
+                        <input type="text" class="form-control" id="titleDescription" name="exos[]" placeholder="Enter your exercice title">
                     </div>
                     <div class=" col-md-2 col-sm-4 col-xs-12 ">
                         <div class="input-group">
-                            <input type="text" class="form-control">
-                            <span class="input-group-addon" style="padding:0px">:</span>
-                           <input type="text" class="form-control">
+                            <input type="text" class="form-control" name="exos[]">
+                            <span class="input-group-addon" style="padding:0px" >:</span>
+                           <input type="text" class="form-control" name="exos[]">
                           <span class="input-group-addon" style="padding:0px">:</span>
-                          <input type="text" class="form-control">
+                          <input type="text" class="form-control" name="exos[]">
 
                         </div>
                     </div>
@@ -112,7 +112,7 @@
                 </div>
                 <div class=" col-md-6 col-sm-6 col-xs-12 ">
                     <!--<input type="email" class="form-control" id="exerciceDescription" placeholder="Enter your exercice title">-->
-                    <textarea id="exerciceDescription" class="form-control" rows="4"></textarea>
+                    <textarea id="exerciceDescription" name="exos[]" class="form-control" rows="4"></textarea>
                 </div>
                   <div class=" col-md-2 col-sm-4 hidden-xs">
                        <h1 style="text-align: center;"> <span class="glyphicon glyphicon-time"></span> </h1>
@@ -124,12 +124,12 @@
           
          <div class=" col-md-1 col-sm-0 col-xs-0 " ></div>
         <div class=" col-md-9 col-sm-12 col-xs-12 " >
-                <table class="table table-striped table-condensed">
+                <table class="table table-striped table-condensed tableAppend">
                     <tr>
-                        <td>1</td>
-                        <td>Warm Up</td>
-                        <td class="hidden-xs"><p>gentium vicinarum excursus sollicitudo pervigil veterum per oportunos saltus erexit et cautos. haec quoque civitates habet inter oppida quaedam ingentes Bostram et Gerasam atque Philadelphiam murorum firmitate cautissimas.</p></td>
-                        <td> 10 min</td>
+                        <td>i</td>
+                        <td>Titre</td>
+                        <td class="hidden-xs"><p>Description</p></td>
+                        <td> Durée</td>
                         <td> <button type="submit" class="btn btn-danger btn-sm"> <span class="glyphicon glyphicon-remove"></span> </button></td>
                     </tr>
                       <tr>
@@ -178,9 +178,58 @@
     <!-- Include all compiled plugins (below), or include individual files as needed -->
     <script src="../res/js/bootstrap.min.js"></script>
     <script src="../res/lib/select2-3.5.1/select2.min.js"></script>
+    <script src="../res/js/ajaxHelper.js"></script>
     <script>
-        $(document).ready(function() { $("#e1").select2(); });
+        $(document).ready(function() { $("#e1").select2(); });       
+        
+        var ajaxSport = new ajaxSport(); 
+        var ser1;
+        var ii=1;
+        $( "#target" ).submit(function( event ) {
+		  	event.preventDefault();
+		  	action = "addPlan";
+			
+			
+			/*(JSON.stringify($('form').serializeObject()))*/
+			
+			console.log(JSON.stringify($("#inputTitle").serialize()));
+			console.log($("#inputTitle").serialize());
+			console.log(JSON.stringify($(".ser1").serializeObject()));
+			
+			ser1 = JSON.stringify($(".ser1").serializeObject());
+			
+			
+			//ajaxSport.entrainement(action, data,callbackSuccess,callbackError,loaderFunc);
+			
+		});	
+		
+		$(	"#addExercice" ).click(function() {
+			addRow(ii, $("#titleDescription").val(),$("#exerciceDescription").val(), "40");
+			ii++;
+		});
+		
+		function addRow(ii,title,description,duration){
+			var elt = '<tr><td>' + ii + '</td><td>' + title +'</td><td class="hidden-xs"><p>' + description+'</p></td><td>' + duration + ' min </td><td> <button type="submit" class="btn btn-danger btn-sm"> <span class="glyphicon glyphicon-remove"></span> </button></td></tr>';
+			$(".tableAppend").append(elt).fadeIn();			
+		}
+		
+		$.fn.serializeObject = function()
+		{
+		    var o = {};
+		    var a = this.serializeArray();
+		    $.each(a, function() {
+		        if (o[this.name] !== undefined) {
+		            if (!o[this.name].push) {
+		                o[this.name] = [o[this.name]];
+		            }
+		            o[this.name].push(this.value || '');
+		        } else {
+		            o[this.name] = this.value || '';
+		        }
+		    });
+		    return o;
+		};
+			
     </script>
-             
   </body>
 </html>
