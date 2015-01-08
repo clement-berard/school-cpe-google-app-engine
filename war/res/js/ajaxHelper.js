@@ -49,12 +49,12 @@ function ajaxSport() {
 			}
 		})
 		.success(function( data,status ) {
-			console.log('recherche success '+action);
+			console.log(url +' success '+action);
 			$("#loader_modal").modal("hide");
 			callbackSuccess(data);
 		})
 		.error(function( data,status ) {
-			console.log('recherche error '+action);
+			console.log(url +' error '+action);
 			$("#loader_modal").find('.modal-content').html('<span style="color:red;">HTTP ERROR</span>');
 			callbackError(data);
 		});

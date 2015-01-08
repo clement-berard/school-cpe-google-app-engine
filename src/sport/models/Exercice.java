@@ -3,6 +3,10 @@
  */
 package sport.models;
 
+import com.google.appengine.api.datastore.DatastoreService;
+import com.google.appengine.api.datastore.DatastoreServiceFactory;
+import com.google.appengine.api.datastore.Entity;
+
 /**
  * @author rhumblot
  * 
@@ -11,10 +15,12 @@ package sport.models;
 public class Exercice {
 	
 	// Attributs
+	private long idPlan;
 	private String title;
 	private String description;
 	private int duration;
 	
+	private final DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();;
 	
 	/**
 	 * Constructor
@@ -29,6 +35,9 @@ public class Exercice {
 		this.duration = duration;
 	}
 	
+	public Exercice() {
+	}
+
 	public String getTitle() {
 		return title;
 	}
@@ -47,6 +56,20 @@ public class Exercice {
 	public void setDuration(int duration) {
 		this.duration = duration;
 	}
+	public long getIdPlan() {
+		return idPlan;
+	}
+	public void setIdPlan(long idPlan) {
+		this.idPlan = idPlan;
+	}
 	
+	public void Save(){
+		
+		Entity exo = new Entity("Exercice");
+		exo.setProperty("title", this.title);
+		exo.setProperty("description", this.description );
+		exo.setProperty("idPlan", this.idPlan);
+		datastore.put(exo);
+	}
 	
 }

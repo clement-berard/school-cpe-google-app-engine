@@ -5,7 +5,6 @@ package sport;
 
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.Writer;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
@@ -15,18 +14,15 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.json.simple.JSONValue;
-
 import com.google.appengine.api.datastore.DatastoreService;
 import com.google.appengine.api.datastore.DatastoreServiceFactory;
 import com.google.appengine.api.datastore.Entity;
 import com.google.appengine.api.datastore.PreparedQuery;
 import com.google.appengine.api.datastore.Query;
-import com.google.appengine.labs.repackaged.org.json.JSONArray;
 import com.google.appengine.labs.repackaged.org.json.JSONException;
 import com.google.appengine.labs.repackaged.org.json.JSONObject;
 import com.google.appengine.labs.repackaged.org.json.XML;
-import com.google.gson.Gson;
+
 
 /**
  * @author rHumblot
@@ -78,12 +74,16 @@ public class RechercheServlet extends HttpServlet{
 	private void getAllSports(HttpServletResponse resp) throws JSONException, IOException {
 
 		DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
+
+		// Utilisation Query afin de rassembler les eÌ�leÌ�ments a appeler/filter
+
 		//		Entity sport1 = new Entity("sport");
 		//		sport1.setProperty("nom","trompette");
 		//		datastore.put(sport1);
 		// Utilisation Query afin de rassembler les éléments a appeler/filter
+
 		Query q = new Query("sport");
-		// Récupération du résultat de la requète à l’aide de PreparedQuery
+		// ReÌ�cupeÌ�ration du reÌ�sultat de la requeÌ€te aÌ€ lâ€™aide de PreparedQuery
 		PreparedQuery pq = datastore.prepare(q);
 		List<String> myList = new ArrayList<String>();
 		JSONObject obj=new JSONObject();
