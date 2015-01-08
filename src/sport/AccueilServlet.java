@@ -38,7 +38,6 @@ public class AccueilServlet extends HttpServlet{
 		dm.clearAndFillDataStore();
 		CacheManager cm = new CacheManager();
 
-
 		//		Entity accueil = new Entity("accueil");
 		//		accueil.setProperty("message","Personal Trainer, votre coach personel vous souhaite la bienvenue !");
 		//		datastore.put(accueil);
@@ -48,6 +47,6 @@ public class AccueilServlet extends HttpServlet{
 		obj.put("mess", cm.getValueCache("accueil", "message"));
 		resp.getWriter().write(obj.toString());
 		resp.getWriter().close();
-
+		
 	}
 }

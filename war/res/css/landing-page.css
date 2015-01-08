@@ -217,3 +217,11 @@ p.copyright {
 .content_frame{
 	padding: 0 2% 1% 5%;
 }
+
+#infos_utilisateur_name{
+	color:#fff;
+}
+
+#infos_utilisateur_link_logout{
+	color:gray;
+}
