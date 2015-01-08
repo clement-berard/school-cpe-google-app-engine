@@ -42,6 +42,7 @@ public class PlanServlet extends HttpServlet{
 	private Plan plan;
 	
 	private final DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
+	private final DatastoreService datastoreq = DatastoreServiceFactory.getDatastoreService();
 	
 	public void doPost( HttpServletRequest request, HttpServletResponse response ) throws ServletException, IOException{
 		jC = new JSONConverter(request);
@@ -62,6 +63,9 @@ public class PlanServlet extends HttpServlet{
 	
 	public void addPlan(){
 		CacheManager cache = new CacheManager();
+		String user = cache.getValue("user_connected");
+		//TODO
+		//Save the user 
 		
 		plan = new Plan();
 		plan.setTitle((String)jC.getJsonObject().get("title"));
@@ -101,18 +105,33 @@ public class PlanServlet extends HttpServlet{
 		// Utilisation Query afin de rassembler les éléments a appeler/filter
 
 		Query q = new Query("exercice");
+		
+		Query qq = new Query("plan");
 		// Récupération du résultat de la requète à l'aide de PreparedQuery
-		PreparedQuery pq = datastore.prepare(q);
+		
+		PreparedQuery pqq = datastoreq.prepare(qq);
+		String title;
+		long key = 0;
 		List<String> myList = new ArrayList<String>();
 		JSONObject obj;
+		
+		
+		for (Entity result : pqq.asIterable()) {
+			title = result.getProperty("title").toString();
+			key = result.getKey().getId();
+		}
+		//q.addFilter("idPlan", Query.FilterOperator.EQUAL, key);
+		
+		PreparedQuery pq = datastore.prepare(q);
 		JSONArray objArray = new JSONArray();
 		for (Entity result : pq.asIterable()) {
 			obj = new JSONObject();
 			obj.put("title", result.getProperty("title").toString());
 			obj.put("description", result.getProperty("description").toString());
-			obj.put("idPlan", result.getProperty("title").toString());
+			obj.put("idPlan", result.getKey().getId());
 			obj.put("duration", result.getProperty("duration").toString());
 			obj.put("durationSec", result.getProperty("durationSec"));
+			
 			objArray.add(obj);
 		}
 		response.setContentType("application/json");
