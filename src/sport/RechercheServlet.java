@@ -4,6 +4,8 @@
 package sport;
 
 import java.io.IOException;
+import java.io.InputStream;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -19,6 +21,8 @@ import com.google.appengine.api.datastore.PreparedQuery;
 import com.google.appengine.api.datastore.Query;
 import com.google.appengine.labs.repackaged.org.json.JSONException;
 import com.google.appengine.labs.repackaged.org.json.JSONObject;
+import com.google.appengine.labs.repackaged.org.json.XML;
+
 
 /**
  * @author rHumblot
@@ -41,25 +45,60 @@ public class RechercheServlet extends HttpServlet{
 				e.printStackTrace();
 			}
 		}
+		else if(jC.getMethod().equalsIgnoreCase("getNewsRss")){
+			try {
+				getNewsRss(response);
+			} catch (JSONException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
 	}
 
 	private void getAllSports(HttpServletResponse resp) throws JSONException, IOException {
+
 		DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
+
 		// Utilisation Query afin de rassembler les eÌ�leÌ�ments a appeler/filter
+
+		//		Entity sport1 = new Entity("sport");
+		//		sport1.setProperty("nom","trompette");
+		//		datastore.put(sport1);
+		// Utilisation Query afin de rassembler les éléments a appeler/filter
+
 		Query q = new Query("sport");
 		// ReÌ�cupeÌ�ration du reÌ�sultat de la requeÌ€te aÌ€ lâ€™aide de PreparedQuery
 		PreparedQuery pq = datastore.prepare(q);
 		List<String> myList = new ArrayList<String>();
 		JSONObject obj=new JSONObject();
 		for (Entity result : pq.asIterable()) {
-//			myList.add(result.getProperty("nom").toString());	
+			//			myList.add(result.getProperty("nom").toString());	
 			obj.put(result.getProperty("nom").toString(), result.getProperty("nom").toString());
 		}
-//		String json = new Gson().toJson(myList);
+		//		String json = new Gson().toJson(myList);
 		resp.setContentType("application/json");
-		
+
 		resp.getWriter().write(obj.toString());
 		resp.getWriter().close();
+	}
+
+	private void getNewsRss(HttpServletResponse resp) throws JSONException, IOException {
+
+		String str = "https://fr.news.yahoo.com/rss/world";
+		URL url = new URL(str);
+		InputStream is = url.openStream();
+		int ptr = 0;
+		StringBuilder builder = new StringBuilder();
+		while ((ptr = is.read()) != -1) {
+		    builder.append((char) ptr);
+		}
+		String xml = builder.toString();
+		JSONObject jsonObject = XML.toJSONObject(xml);
+		String jsonPrettyPrintString = jsonObject.toString(4);
+		resp.setContentType("application/json");
+		resp.getWriter().write(jsonPrettyPrintString.toString());
+		resp.getWriter().close();
+
 	}
 
 
