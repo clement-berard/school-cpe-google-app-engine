@@ -15,6 +15,10 @@ function ajaxSport() {
 	this.recherche = function (action, data,callbackSuccess,callbackError,callLoader) {
 		this.defaultAjax(this.url_recherche,action,data,callbackSuccess,callbackError,callLoader);
 	},
+	
+	this.newsrss = function (callbackSuccess,callbackError,callLoader) {
+		this.defaultAjax(this.url_recherche,"getNewsRss",{},callbackSuccess,callbackError,callLoader);
+	},
 
 	this.accueil = function (action, data,callbackSuccess,callbackError,callLoader) {
 		this.defaultAjax(this.url_accueil,action,data,callbackSuccess,callbackError,callLoader);
