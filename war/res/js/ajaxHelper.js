@@ -3,11 +3,11 @@ function ajaxSport() {
 
 	this.method = "POST",
 	this.dataType = "json",
-	this.base_url = "http://localhost:8888/",
-	this.url_recherche = "recherche",
-	this.url_accueil = "accueil",
-	this.url_entrainement = "entrainement",
-	this.url_compte = "compte",
+	this.base_url = "",
+	this.url_recherche = "/recherche",
+	this.url_accueil = "/accueil",
+	this.url_entrainement = "/entrainement",
+	this.url_compte = "/compte",
 
 	/**
 	 * 

@@ -24,6 +24,7 @@ import com.google.appengine.labs.repackaged.org.json.JSONObject;
 public class AccueilServlet extends HttpServlet{
 
 	public void doPost( HttpServletRequest request, HttpServletResponse response ) throws ServletException, IOException{
+		
 		try {
 			this.getMessage(response);
 		} catch (JSONException e) {
