@@ -75,12 +75,10 @@ public class RechercheServlet extends HttpServlet{
 
 		DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
 
-		// Utilisation Query afin de rassembler les eÌ�leÌ�ments a appeler/filter
 
-		//		Entity sport1 = new Entity("sport");
-		//		sport1.setProperty("nom","trompette");
-		//		datastore.put(sport1);
-		// Utilisation Query afin de rassembler les éléments a appeler/filter
+				Entity sport1 = new Entity("sport");
+				sport1.setProperty("nom","trompette");
+				datastore.put(sport1);
 
 		Query q = new Query("sport");
 		// ReÌ�cupeÌ�ration du reÌ�sultat de la requeÌ€te aÌ€ lâ€™aide de PreparedQuery
@@ -122,20 +120,30 @@ public class RechercheServlet extends HttpServlet{
 
 
 		String term  = (String) jC.getJsonObject().get("term");
+		System.out.println(term);
+		
 		DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
 
-		Query q = new Query("user");
-		q.addFilter("login", Query.FilterOperator.EQUAL, term);
-
+		Query q = new Query("plan");
+		q.addFilter("title", Query.FilterOperator.EQUAL, term);
+//
 		PreparedQuery pq = datastore.prepare(q);
 
-		if(pq.countEntities() > 0){
-			Entity e = pq.asSingleEntity();
-			// redirect
-			resp.getWriter().println(e.getProperty("prenom"));
-			resp.sendRedirect("/index.html");
+		List<String> myList = new ArrayList<String>();
+		JSONObject obj=new JSONObject();
+		int i = 0;
+		for (Entity result : pq.asIterable()) {
+			JSONObject obj2=new JSONObject();
+			obj2.put("title", result.getProperty("title").toString());
+			obj2.put("description", result.getProperty("description").toString());
+			obj2.put("domain", result.getProperty("domain").toString());
+			obj2.put("id", result.getKey().getId());
+			obj.put("plan_"+i, obj2.toString());
+			i++;
 		}
-
+		resp.setContentType("application/json");
+		resp.getWriter().write(obj.toString());
+		resp.getWriter().close();
 
 
 
@@ -144,7 +152,30 @@ public class RechercheServlet extends HttpServlet{
 	private void getSearchExercices(HttpServletResponse resp, HttpServletRequest req, JSONConverter jC2) throws JSONException, IOException {
 
 
+		String term  = (String) jC.getJsonObject().get("term");
+		System.out.println(term);
+		
+		DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
 
+		Query q = new Query("exercice");
+		q.addFilter("title", Query.FilterOperator.EQUAL, term);
+//
+		PreparedQuery pq = datastore.prepare(q);
+
+		List<String> myList = new ArrayList<String>();
+		JSONObject obj=new JSONObject();
+		int i = 0;
+		for (Entity result : pq.asIterable()) {
+			JSONObject obj2=new JSONObject();
+			obj2.put("title", result.getProperty("title").toString());
+			obj2.put("idPlan", result.getProperty("idPlan").toString());
+			obj.put("exo_"+i, obj2.toString());
+			i++;
+		}
+		//		String json = new Gson().toJson(myList);
+		resp.setContentType("application/json");
+		resp.getWriter().write(obj.toString());
+		resp.getWriter().close();
 
 
 	}

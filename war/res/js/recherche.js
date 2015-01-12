@@ -1,5 +1,5 @@
 var ajaxSport = new ajaxSport();
-
+var input_s = $('#search_value_input');
 function getAllListSport(){
 	ajaxSport.recherche("getAllSports",{},callbackSuccessItemsSports,callbackError,loaderFunc);
 }
@@ -54,33 +54,102 @@ function functionForListSports(){
 $( document ).ready(function() {
 	
 	
-	// quand on clique sur le bouton rechercher
 	$( "#form_search_everything" ).submit(function( event ) {
 		event.preventDefault();
-		var exos = $('#sport_traning_search_exos');
-		var plans = $('#sport_traning_search_plan');
-		var input_s = $('#search_value_input');
-		var term_title = $('#sport_traning_search_term');
-		$('.content_frame').hide();
-		$('#sport_traning_search_news').html('');
-		// pour les news
-		ajaxSport.newsrss(getFeedsCallback,getFeedsCallbackError,getFeedsCallbackLoader);
-		// plans and results
-		if(input_s.val() == ''){
-			exos.html('').html('<span style="color:red">No search term</span>');
-			plans.html('').html('<span style="color:red">No search term</span>');
-			term_title.html('').html('nothing');
-		}
-		else{
-			term_title.html('').html(input_s.val());
-		}
-
-		$('#sport_traning_search').fadeIn();
-
+		$("#loader_modal").modal("show");
+		ajaxOpenId(null,'isConnected',callbackIsConnectedToMakeSearch);
+		
 	});
+	
 });
 
 
+function callbackIsConnectedToMakeSearch(data){
+	if(data.is == 1){
+		window.location = "ha-result-screen.html?term="+encodeURIComponent(input_s.val());	
+	}
+	else{
+		$("#loader_modal").modal("hide");
+		alert('Vous devez etre connecte pour faire une recherche !!');
+		window.location = "ha-search-screen.html";	
+	}
+}
+
+function getResultSearch(){
+	var param = decodeURIComponent(getParameter('term'));
+	var exos = $('#sport_traning_search_exos');
+	var plans = $('#sport_traning_search_plan');
+	var term_title = $('#sport_traning_search_term');
+	$('.content_frame').hide();
+	$('#sport_traning_search_news').html('');
+	// pour les news
+	ajaxSport.newsrss(getFeedsCallback,getFeedsCallbackError,getFeedsCallbackLoader);
+	var term_search = '{"term" : "'+param+'"}';
+	ajaxSport.recherche("getSearchPlan",term_search,getSearchPlanCallback,getSearchPlanCallbackError,getSearchPlanCallbackLoader);
+	ajaxSport.recherche("getSearchExercices",term_search,getSearchExoCallback,getSearchExoCallbackError,getSearchExoCallbackLoader);
+	// plans and results
+	if(param == ''){
+		exos.html('').html('<span style="color:red">No search term</span>');
+		plans.html('').html('<span style="color:red">No search term</span>');
+		term_title.html('').html('nothing');
+	}
+	else{
+		term_title.html('').html(param);
+	}
+
+	$('#sport_traning_search').fadeIn();
+}
+
+
+/**
+ * Search plan
+ *
+ */
+
+function getSearchPlanCallback(data){
+	console.log(data);
+	var ul = $('#sport_traning_search_plan > ul');
+	$.each( data, function( key, value ) {
+		value = JSON.parse(value);
+		ul.append('<li><a href="#">'+value.title+'</a></li>');
+	});
+}
+
+function getSearchPlanCallbackError(){
+	
+}
+
+function getSearchPlanCallbackLoader(){
+	
+}
+
+/**
+ * Search exercice
+ *
+ */
+
+function getSearchExoCallback(data){
+	console.log(data);
+	var ul = $('#sport_traning_search_exos > ul');
+	$.each( data, function( key, value ) {
+		value = JSON.parse(value);
+		ul.append('<li><a href="#">'+value.title+'</a></li>');
+	});
+}
+
+function getSearchExoCallbackError(){
+	
+}
+
+function getSearchExoCallbackLoader(){
+	
+}
+
+
+/**
+ * FEEDS
+ * @param data
+ */
 function getFeedsCallback(data){
 
 	console.log(data.rss.channel.item);
@@ -102,5 +171,15 @@ function getFeedsCallback(data){
 
 function getFeedsCallbackError(){};
 function getFeedsCallbackLoader(){};
+
+
+/**
+ * get parameters
+ */
+
+function getParameter(param){
+	return location.search.split(param+'=')[1] ? location.search.split(param+'=')[1] : 0;
+}
+
 
 
