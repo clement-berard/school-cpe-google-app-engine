@@ -97,23 +97,19 @@
             
             
             
-            $("#flipcountdownbox1").flipcountdown({speedFlip:60,tick:function(){
+            /*$("#flipcountdownbox1").flipcountdown({speedFlip:60,tick:function(){
                     currentTime=time-1000;
                     time=currentTime;
                     date=new Date(currentTime);
                     return date;
-                }});
+                }});*/
             
-            $("#flipcountdownbox2").flipcountdown({speedFlip:60,tick:function(){
+            /*$("#flipcountdownbox2").flipcountdown({speedFlip:60,tick:function(){
                     currentTime=time2-1000;
                     time2=currentTime;
                     date2=new Date(currentTime);
                     return date2;
-                }});
-            
-            
-                
-           
+                }});*/
         });
         
         function callbackSuccess(data){
@@ -124,12 +120,24 @@
 			
 			addExercice(data);
 			
-			$("#flipcountdownbox3").flipcountdown({speedFlip:60,tick:function(){
-                    currentTime=time3-1000;
-                    time3=currentTime;
+			var j=0;
+			var id;
+			var dur;
+			for(j=1;j<nbExo+1;j++){
+				id = "#flipcountdownbox" + j;
+				dur =  durByEx[j];
+				$(id).flipcountdown({speedFlip:dur,tick:function(){
+                    date=new Date('5.10.2012 00:20:00');
+            		time=date.getTime();
+                    currentTime=time-1000;
+                    tim=currentTime;
                     date3=new Date(currentTime);
-                    return date3;
+                    return date	;
                 }});
+                alert(id);
+			}
+			
+			
 		}
 		
 		function callbackError(){}
@@ -146,7 +154,6 @@
 			  	durationSec = data[key]["durationSec"];
 				nbExo++;  	
 				durByEx[nbExo] = durationSec;
-				alert(durByEx[nbExo]);
 				$("#add").append('<tr><td class=" col-md-12 col-sm-12 col-xs-12"><div class="row"><div class=" col-md-3 col-sm-12 col-xs-12 "><h3>' + title +' </h3></div>' +
 	                            '<div class=" col-md-1 col-sm-2 col-xs-2 ">' +
 	                                '<p id="totalTimeValue" style="margin-top:25px"><span class="glyphicon glyphicon-time"></span> ' + duration + '</p>'+
