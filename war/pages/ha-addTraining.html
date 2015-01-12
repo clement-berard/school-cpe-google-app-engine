@@ -34,6 +34,12 @@
       </nav>
       <!-- ------------------------------------------- HEADER ZONE END ------------------------------------------- -->
       
+	  <div class="alert alert-success" style="display:none">
+		   <a href="#" class="close" data-dismiss="alert">
+		      &times;
+		   </a>
+		   Enregistrement réussi !
+		</div>
       <form role="form" id="target">
           <div class="row" style="margin-bottom:10px">
               <div class=" col-md-1 col-sm-0 col-xs-0 " ></div>
@@ -41,11 +47,11 @@
                 <label for="inputTitle">Title</label>  
              </div>
             <div class=" col-md-6 col-sm-6 col-xs-12 ">
-                <input type="text" class="form-control ser1" id="inputTitle" name="title" placeholder="Enter your Training plan title">
+                <input type="text" class="form-control" id="inputTitle" name="title" placeholder="Enter your Training plan title">
              </div>
               <div class=" col-md-3 col-sm-4 hidden-xs">
                   <div class=" col-md-4 col-sm-4 hidden-xs">
-                     <p id="totalTimeValue"><span class="glyphicon glyphicon-time"></span> 1:20:15</p>
+                     <p id="totalTimeValue"><span class="glyphicon glyphicon-time"></span> 00:00:00</p>
                   </div>
              </div>
         </div>
@@ -56,7 +62,7 @@
             </div>
             <div class=" col-md-6 col-sm-6 col-xs-12 ">
                 <!--<input type="email" class="form-control" id="inputDescription" placeholder="Enter your Training plan Description">-->
-                <textarea id="inputDescription" name="description" class="form-control ser1" rows="4" ></textarea>
+                <textarea id="inputDescription" name="description" class="form-control" rows="4" ></textarea>
             </div>
         </div>
         <div class="row" style="margin-top:10px">
@@ -66,7 +72,7 @@
             </div>
             <div class=" col-md-6 col-sm-6 col-xs-12 " >
                 <p>
-                    <select id="e1" class="select2-container populate ser1" style="width:100%" name="domain">
+                    <select id="e1" class="select2-container populate" style="width:100%" name="domain">
                         <option value="Running">Running</option>
                         <option value="Volleyball">Volleyball</option>
                         <option value="Boxe">Boxe</option>
@@ -184,9 +190,9 @@
         $(document).ready(function() { $("#e1").select2(); });       
         
         var ajaxSport = new ajaxSport(); 
-        var ser1;
         var table;
         var ii=1;
+        var timeSec=0;
         
         $( "#target" ).submit(function( event ) {
 		  	var data;
@@ -203,7 +209,8 @@
 		});	
 		
 		function callbackSuccess(data){
-			alert(data);
+			
+			$(".alert").show();
 		}
 		
 		function callbackError(){}
@@ -212,19 +219,25 @@
 		$(	"#addExercice" ).click(function() {
 			
 			var time ='';
-			
+			var thisTime='';
 			if($("#hour").val()){
 				time = $("#hour").val() + 'h ';
+				timeSec += parseInt($("#hour").val()*3600);
+				thisTime = parseInt($("#hour").val()*3600);
 			}
 			if($("#min").val()){
 				time += $("#min").val() + 'min ';
+				timeSec += parseInt($("#min").val()*60);
+				thisTime += parseInt($("#min").val()*60);
 			}
 			if($("#sec").val()){
-				time += $("#sec").val() + 's';
+				time += parseInt($("#sec").val() + 's');
+				timeSec = timeSec + parseInt($("#sec").val());
+				thisTime += timeSec + parseInt($("#sec").val());
 			}
 			
-			
-			addRow(ii, $("#titleDescription").val(),$("#exerciceDescription").val(), time);
+			addRow(ii, $("#titleDescription").val(),$("#exerciceDescription").val(), time, thisTime);
+			thisTime = parseInt(0);
 			ii++;
 			$("#titleDescription").val('');
 			$("#exerciceDescription").val('');
@@ -233,10 +246,10 @@
 			$("#sec").val('');
 		});
 		
-		function addRow(ii,title,description,duration){
+		function addRow(ii,title,description,duration, durationSec){
 			var elt = '<tr><td>' + ii + '</td><td>' + title +'</td><td class="hidden-xs"><p>' + description+'</p></td><td>' + duration + '</td><td> <button type="submit" class="btn btn-danger btn-sm"> <span class="glyphicon glyphicon-remove"></span> </button></td></tr>';
 			$(".tableAppend").append(elt).fadeIn();		
-			var hidden = '<input type="hidden" name= exos['+ ii +'][title] value="' + title +'"><br><input type="hidden" name= exos['+ ii +'][description] value="' + description +'"><br><input type="hidden" name= exos['+ ii +'][duration] value="' + duration +'">';
+			var hidden = '<input type="hidden" name= exos['+ ii +'][title] value="' + title +'"><br><input type="hidden" name= exos['+ ii +'][description] value="' + description +'"><br><input type="hidden" name= exos['+ ii +'][duration] value="' + duration +'"><br><input type="hidden" name= exos['+ ii +'][durationSec] value="' + durationSec +'">';
 			if(ii == 1){
 				hidden += '<br><input type="hidden" name="number"  value="' + ii +'" id="number"><br>';
 			} else {
@@ -244,7 +257,19 @@
 			}
 			
 			$("#storeExos").append(hidden);
-						
+			
+			
+			display(durationSec);	
+		}
+		
+		function display(totalSec){
+			
+			var hours = parseInt( totalSec / 3600 ) % 24;
+			var minutes = parseInt( totalSec / 60 ) % 60;
+			var seconds = totalSec % 60;
+			
+			var result = (hours < 10 ? "0" + hours : hours) + ":" + (minutes < 10 ? "0" + minutes : minutes) + ":" + (seconds  < 10 ? "0" + seconds : seconds);
+			$("#totalTimeValue").text(result);	
 		}
 		
 		$.fn.serializeObject = function()
