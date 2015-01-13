@@ -186,6 +186,7 @@
     <script src="../res/js/bootstrap.min.js"></script>
     <script src="../res/lib/select2-3.5.1/select2.min.js"></script>
     <script src="../res/js/ajaxHelper.js"></script>
+    <script src="../res/js/recherche.js"></script>
     <script>
         $(document).ready(function() { $("#e1").select2(); });       
         
@@ -195,17 +196,19 @@
         var timeSec=0;
         
         $( "#target" ).submit(function( event ) {
-		  	var data;
-		  	event.preventDefault();
-		  	action = "addPlan";
-			
-			
-			//console.log(JSON.stringify($("#target").serializeObject()));
-			data = JSON.stringify($("#target").serializeObject());
-			console.log(data);
-			
-			ajaxSport.entrainement(action, data,callbackSuccess,callbackError,loaderFunc);
-			
+        	if(ii != 1){
+			  	var data;
+			  	//var term_search = '{"term" : "'+param+'"}';
+			  	event.preventDefault();
+			  	action = "addPlan";
+				
+				
+				//console.log(JSON.stringify($("#target").serializeObject()));
+				data = JSON.stringify($("#target").serializeObject());
+				console.log(data);
+				
+				ajaxSport.entrainement(action, data,callbackSuccess,callbackError,loaderFunc);
+			}
 		});	
 		
 		function callbackSuccess(data){

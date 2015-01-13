@@ -97,11 +97,12 @@ public class PlanServlet extends HttpServlet{
 		String user = cache.getValue("user_connected");
 		//TODO
 		//Save the user 
-
+		
 		plan = new Plan();
 		plan.setTitle((String)jC.getJsonObject().get("title"));
 		plan.setDescription((String)jC.getJsonObject().get("description"));
 		plan.setDomain((String)jC.getJsonObject().get("domain"));
+		plan.setUser(user);
 		plan.Save();
 		addExercice();
 	}
@@ -134,7 +135,7 @@ public class PlanServlet extends HttpServlet{
 	@SuppressWarnings("unchecked")
 	public void details(HttpServletResponse response) throws IOException{
 		// Utilisation Query afin de rassembler les éléments a appeler/filter
-
+		//String cat  = (String) jC.getJsonObject().get("term");
 		Query q = new Query("exercice");
 
 		Query qq = new Query("plan");
@@ -145,8 +146,8 @@ public class PlanServlet extends HttpServlet{
 		long key = 0;
 		List<String> myList = new ArrayList<String>();
 		JSONObject obj;
-
-
+		
+		
 		for (Entity result : pqq.asIterable()) {
 			title = result.getProperty("title").toString();
 			key = result.getKey().getId();

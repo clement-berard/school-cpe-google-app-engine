@@ -18,6 +18,7 @@ public class Plan {
 	private String title;
 	private String description;
 	private String domain;
+	private String user;
 	private long id;
 	
 	public long getId() {
@@ -37,6 +38,16 @@ public class Plan {
 		this.domain = domain;
 	}
 	
+	
+	
+	public String getUser() {
+		return user;
+	}
+
+	public void setUser(String user) {
+		this.user = user;
+	}
+
 	public String getTitle() {
 		return title;
 	}
@@ -62,6 +73,7 @@ public class Plan {
 		plan.setProperty("title", this.title);
 		plan.setProperty("description", this.description );
 		plan.setProperty("domain", this.domain);
+		plan.setProperty("user", this.user);
 		datastore.put(plan);
 		this.id = plan.getKey().getId();
 	}
