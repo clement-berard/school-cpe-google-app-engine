@@ -126,15 +126,20 @@
 			for(j=1;j<nbExo+1;j++){
 				id = "#flipcountdownbox" + j;
 				dur =  durByEx[j];
-				$(id).flipcountdown({speedFlip:dur,tick:function(){
+				$(id).flipcountdown({speedFlip:60,tick:function(){
+					/*date = new Date(dur);
                     date=new Date('5.10.2012 00:20:00');
             		time=date.getTime();
                     currentTime=time-1000;
                     tim=currentTime;
                     date3=new Date(currentTime);
                     return date	;
+                    */
+                    toto = new Date('5.10.2012 00:20:00');
+                    return toto;
                 }});
-                alert(id);
+                dur=0;
+                //alert(id);
 			}
 			
 			
@@ -166,7 +171,7 @@
 	                            '</div>'+
 	                            '<div class=" col-md-3 col-sm-12 col-xs-12 ">'+
 	                                '<div class=" col-md-12 col-sm-12 col-xs-12 ">'+
-	                                    '<div id="flipcountdownbox"'+nbExo+'>'+                            
+	                                    '<div id="flipcountdownbox'+nbExo+'">'+                            
 	                                    '</div>'+
 	                                '</div>'+
 	                                '<div class=" col-md-12 col-sm-12 col-xs-12 centered">'+
