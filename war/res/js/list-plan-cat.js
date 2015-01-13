@@ -27,7 +27,6 @@ function readyToListPlanFromCat(){
  */
 function getListPlanCatCallback(data){
 	var size = Object.keys(data).length;
-	console.log("taille : "+size);
 	if(size == 0){
 		$('#alert_for_no_plan').show();
 	}
