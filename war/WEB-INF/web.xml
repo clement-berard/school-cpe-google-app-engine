@@ -51,6 +51,15 @@ http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
 		<url-pattern>/compte</url-pattern>
 	</servlet-mapping>
 	
+	<servlet>
+		<servlet-name>datastore</servlet-name>
+		<servlet-class>sport.DataManager</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>datastore</servlet-name>
+		<url-pattern>/datastore</url-pattern>
+	</servlet-mapping>
+	
 
 	<welcome-file-list>
 		<welcome-file>index.html</welcome-file>
