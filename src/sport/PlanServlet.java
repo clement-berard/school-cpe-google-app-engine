@@ -36,17 +36,17 @@ import com.google.appengine.labs.repackaged.org.json.JSONException;
  */
 @SuppressWarnings("serial")
 public class PlanServlet extends HttpServlet{
-	
+
 	private JSONConverter jC;
 	private Exercice exo;
 	private Plan plan;
-	
+
 	private final DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
 	private final DatastoreService datastoreq = DatastoreServiceFactory.getDatastoreService();
-	
+
 	public void doPost( HttpServletRequest request, HttpServletResponse response ) throws ServletException, IOException{
 		jC = new JSONConverter(request);
-		
+
 		if(jC.getMethod().equalsIgnoreCase("addPlan")){
 			addPlan();
 			response.setContentType("application/json");
@@ -55,18 +55,49 @@ public class PlanServlet extends HttpServlet{
 			jsonToSend.put("message", "Enregistrement réussi");
 			response.getWriter().write(jsonToSend.toString());
 			response.getWriter().close();
-			
-		} else {
+
+		}else if(jC.getMethod().equalsIgnoreCase("details")){
 			details(response);
+		}else if(jC.getMethod().equalsIgnoreCase("getListPlanFromCat")){
+			getListPlanFromCat(response);
 		}
 	}
-	
+
+	private void getListPlanFromCat(HttpServletResponse resp) throws IOException {
+		String cat  = (String) jC.getJsonObject().get("categorie");
+		System.out.println(cat);
+
+		DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
+
+		Query q = new Query("plan");
+		q.addFilter("domain", Query.FilterOperator.EQUAL, cat);
+		//
+		PreparedQuery pq = datastore.prepare(q);
+
+		List<String> myList = new ArrayList<String>();
+		JSONObject obj=new JSONObject();
+		int i = 0;
+		for (Entity result : pq.asIterable()) {
+			JSONObject obj2=new JSONObject();
+			obj2.put("title", result.getProperty("title").toString());
+			obj2.put("description", result.getProperty("description").toString());
+			obj2.put("domain", result.getProperty("domain").toString());
+			obj2.put("id", result.getKey().getId());
+			obj.put("plan_"+i, obj2.toString());
+			i++;
+		}
+		resp.setContentType("application/json");
+		resp.getWriter().write(obj.toString());
+		resp.getWriter().close();
+
+	}
+
 	public void addPlan(){
 		CacheManager cache = new CacheManager();
 		String user = cache.getValue("user_connected");
 		//TODO
 		//Save the user 
-		
+
 		plan = new Plan();
 		plan.setTitle((String)jC.getJsonObject().get("title"));
 		plan.setDescription((String)jC.getJsonObject().get("description"));
@@ -74,15 +105,15 @@ public class PlanServlet extends HttpServlet{
 		plan.Save();
 		addExercice();
 	}
-	
+
 	public void addExercice(){
-		
+
 		String title;
 		String desc;
 		String dur;
 		String durSec;
 		int numberExos = Integer.parseInt((String)jC.getJsonObject().get("number"));
-		
+
 		for(int i =1; i<(numberExos+1); i++){
 			title = "exos[" + i + "][title]";
 			desc = "exos[" + i + "][description]";
@@ -99,29 +130,29 @@ public class PlanServlet extends HttpServlet{
 		}
 		System.out.println();
 	}
-	
+
 	@SuppressWarnings("unchecked")
 	public void details(HttpServletResponse response) throws IOException{
 		// Utilisation Query afin de rassembler les éléments a appeler/filter
 
 		Query q = new Query("exercice");
-		
+
 		Query qq = new Query("plan");
 		// Récupération du résultat de la requète à l'aide de PreparedQuery
-		
+
 		PreparedQuery pqq = datastoreq.prepare(qq);
 		String title;
 		long key = 0;
 		List<String> myList = new ArrayList<String>();
 		JSONObject obj;
-		
-		
+
+
 		for (Entity result : pqq.asIterable()) {
 			title = result.getProperty("title").toString();
 			key = result.getKey().getId();
 		}
 		//q.addFilter("idPlan", Query.FilterOperator.EQUAL, key);
-		
+
 		PreparedQuery pq = datastore.prepare(q);
 		JSONArray objArray = new JSONArray();
 		for (Entity result : pq.asIterable()) {
@@ -131,12 +162,14 @@ public class PlanServlet extends HttpServlet{
 			obj.put("idPlan", result.getKey().getId());
 			obj.put("duration", result.getProperty("duration").toString());
 			obj.put("durationSec", result.getProperty("durationSec"));
-			
+
 			objArray.add(obj);
 		}
 		response.setContentType("application/json");
 		response.getWriter().write(objArray.toString());
 		response.getWriter().close();
-		
+
 	}
+
+
 }

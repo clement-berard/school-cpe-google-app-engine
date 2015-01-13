@@ -1,16 +1,38 @@
+/**
+ * differentes mises en place d'event
+ */
+
+$( document ).ready(function() {
+	$( "#form_search_everything" ).submit(function( event ) {
+		event.preventDefault();
+		$("#loader_modal").modal("show");
+		ajaxOpenId(null,'isConnected',callbackIsConnectedToMakeSearch);
+	});
+});
+
+
+//init de la class ajaxHelper
 var ajaxSport = new ajaxSport();
-var input_s = $('#search_value_input');
+//var glob
+var input_s = $('#search_value_input'); // champs input de recherche
+/**
+ * fonction qui appelle un WS pour avoir la liste de tous les sports
+ */
 function getAllListSport(){
 	ajaxSport.recherche("getAllSports",{},callbackSuccessItemsSports,callbackError,loaderFunc);
 }
-
+/**
+ * callback success pour la liste des sports
+ * on affiche les resultats sur la page avec le code suivant (avec un peu de maths pour avoir des
+ * lignes de max 4 elems)
+ * @param data
+ */
 function callbackSuccessItemsSports(data){
 	console.log(data);
 	$('.content_frame').hide();
 	$('#content_sports_inner').html('');
 	$('#content_sports').fadeIn();
 	var size = Object.keys(data).length;
-//	var size = parseInt(5);
 	var nb_item_per_line = 4;
 	var nbLigne = Math.ceil(size/nb_item_per_line);
 	if(size != 0){
@@ -30,40 +52,40 @@ function callbackSuccessItemsSports(data){
 		});
 		functionForListSports();
 	}
-
-
 }
-// callback vide par defaut
+//callback vide par defaut, on peut reutiliser
 function callbackError(){}
 function loaderFunc(){}
-
-
+//callback vide par defaut -- end
+/**
+ * fonction qui va appeller une page pour afficher les plans
+ * d'une certaine categorie
+ */
 function functionForListSports(){
-
-
 	$(".btn_sport_detail").on('click',function(){
-
-
-		alert($(this).attr('rel'));
-
+		window.location = 'ha-list-plan-cat.html?categorie='+$(this).attr('rel');
 	});
-
 }
+/**
+ * fonction qui va appeller une page pour afficher les plans
+ * d'une certaine categorie
+ * 
+ * CALLBACKS LIST PLAN CAT
+ * 
+ */
 
 
-$( document ).ready(function() {
-	
-	
-	$( "#form_search_everything" ).submit(function( event ) {
-		event.preventDefault();
-		$("#loader_modal").modal("show");
-		ajaxOpenId(null,'isConnected',callbackIsConnectedToMakeSearch);
-		
-	});
-	
-});
+/**
+ * CALLBACKS LIST PLAN CAT -- END
+ */
 
 
+
+
+
+/**
+ * callback pour faire la recherche, si et seulement si un user est connecte
+ */
 function callbackIsConnectedToMakeSearch(data){
 	if(data.is == 1){
 		window.location = "ha-result-screen.html?term="+encodeURIComponent(input_s.val());	
@@ -75,6 +97,11 @@ function callbackIsConnectedToMakeSearch(data){
 	}
 }
 
+/**
+ * appeller sur la page des resultats de la recherche
+ * appelle 3 WS pour recherche dans exos, plan et affiche les RSS
+ * et on affiche tout, grace a different callback (en dessus de cette fonction)
+ */
 function getResultSearch(){
 	var param = decodeURIComponent(getParameter('term'));
 	var exos = $('#sport_traning_search_exos');
@@ -94,14 +121,14 @@ function getResultSearch(){
 		term_title.html('').html('nothing');
 	}
 	else{
-		term_title.html('').html(param);
+		term_title.html('').html('"'+param+'"');
 	}
-
 	$('#sport_traning_search').fadeIn();
 }
 
 
 /**
+ * Callback
  * Search plan
  *
  */
@@ -116,14 +143,15 @@ function getSearchPlanCallback(data){
 }
 
 function getSearchPlanCallbackError(){
-	
+
 }
 
 function getSearchPlanCallbackLoader(){
-	
+
 }
 
 /**
+ * Callback
  * Search exercice
  *
  */
@@ -138,15 +166,16 @@ function getSearchExoCallback(data){
 }
 
 function getSearchExoCallbackError(){
-	
+
 }
 
 function getSearchExoCallbackLoader(){
-	
+
 }
 
 
 /**
+ * Callback
  * FEEDS
  * @param data
  */
@@ -175,6 +204,9 @@ function getFeedsCallbackLoader(){};
 
 /**
  * get parameters
+ * fonction qui retourne un paramtre en GET qui se trouve dans l'url, 
+ * sert pour le term de la recherche entre autre
+ * 
  */
 
 function getParameter(param){
