@@ -123,11 +123,20 @@
 			var j=0;
 			var id;
 			var dur;
-			for(j=1;j<nbExo+1;j++){
+			var dateFormat = new Array();
+			for(j=1; j<nbExo+1; j++){
 				id = "#flipcountdownbox" + j;
 				dur =  durByEx[j];
+				dateFormat[j] = new Date();
+                    
+                dateFormat[j].setHours(parseInt( dur / 3600 ) % 24);
+                dateFormat[j].setMinutes(parseInt( dur / 60 ) % 60);
+                dateFormat[j].setSeconds(dur % 60);
+                alert(dateFormat);
 				$(id).flipcountdown({speedFlip:60,tick:function(){
 					/*date = new Date(dur);
+					date = new Date();
+					
                     date=new Date('5.10.2012 00:20:00');
             		time=date.getTime();
                     currentTime=time-1000;
@@ -135,13 +144,16 @@
                     date3=new Date(currentTime);
                     return date	;
                     */
-                    toto = new Date('5.10.2012 00:20:00');
-                    return toto;
+                    
+                    
+                    //toto = dateFormat.getDay() + dateFormat.getMonth() + dateFormat.getFullYear() + dateFormat.getHours() + dateFormat.getHours() + dateFormat.getMinutes() + dateFormat.getSeconds();
+                    //toto = new Date(toto);
+                    return dateFormat[j];
                 }});
+                //alert(toto);
                 dur=0;
                 //alert(id);
 			}
-			
 			
 		}
 		
