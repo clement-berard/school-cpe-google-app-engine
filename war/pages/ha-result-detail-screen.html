@@ -97,12 +97,12 @@
             
             
             
-            /*$("#flipcountdownbox1").flipcountdown({speedFlip:60,tick:function(){
+            $("#flipcountdownbox1").flipcountdown({speedFlip:60,tick:function(){
                     currentTime=time-1000;
                     time=currentTime;
                     date=new Date(currentTime);
                     return date;
-                }});*/
+                }});
             
             /*$("#flipcountdownbox2").flipcountdown({speedFlip:60,tick:function(){
                     currentTime=time2-1000;
@@ -124,37 +124,29 @@
 			var id;
 			var dur;
 			var dateFormat = new Array();
+			var date = new Array();
+			var time = new Array();
 			for(j=1; j<nbExo+1; j++){
 				id = "#flipcountdownbox" + j;
 				dur =  durByEx[j];
+				
+				
 				dateFormat[j] = new Date();
-                    
-                dateFormat[j].setHours(parseInt( dur / 3600 ) % 24);
+                dateFormat[j].setHours((parseInt( dur / 3600 ) % 24 ));
                 dateFormat[j].setMinutes(parseInt( dur / 60 ) % 60);
                 dateFormat[j].setSeconds(dur % 60);
-                alert(dateFormat);
-				$(id).flipcountdown({speedFlip:60,tick:function(){
-					/*date = new Date(dur);
-					date = new Date();
-					
-                    date=new Date('5.10.2012 00:20:00');
-            		time=date.getTime();
-                    currentTime=time-1000;
-                    tim=currentTime;
-                    date3=new Date(currentTime);
-                    return date	;
-                    */
-                    
-                    
-                    //toto = dateFormat.getDay() + dateFormat.getMonth() + dateFormat.getFullYear() + dateFormat.getHours() + dateFormat.getHours() + dateFormat.getMinutes() + dateFormat.getSeconds();
-                    //toto = new Date(toto);
+                alert(dateFormat[j]);
+                
+				$(id).flipcountdown({speedFlip:60,tick:function(){  
+			    	currentTime=time-1000;
+                    time[j]=currentTime;
+                    date[j]=new Date(currentTime);
+                    //return date[j];
                     return dateFormat[j];
                 }});
-                //alert(toto);
+                
                 dur=0;
-                //alert(id);
 			}
-			
 		}
 		
 		function callbackError(){}
