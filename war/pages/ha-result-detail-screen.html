@@ -74,6 +74,7 @@
     <script src="../res/lib/select2-3.5.1/select2.min.js"></script>
     <script src="../res/lib/flipcountdown-master/jquery.flipcountdown.js"></script>
     <script src="../res/js/ajaxHelper.js"></script>
+    <script src="../res/js/recherche.js"></script>
     <script>
     	var nbExo = 0;
     	var durByEx = new Array();
@@ -84,7 +85,7 @@
         	var data ;
         	
         	
-        	alert(getParameter('term'));
+        	alert(decodeURIComponent(getParameter('plan')));
         	aS.entrainement(action, data,callbackSuccess,callbackError,loaderFunc); 
         	
             $("#e1").select2(); 

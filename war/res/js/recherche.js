@@ -138,7 +138,7 @@ function getSearchPlanCallback(data){
 	var ul = $('#sport_traning_search_plan > ul');
 	$.each( data, function( key, value ) {
 		value = JSON.parse(value);
-		ul.append('<li><a href="#">'+value.title+'</a></li>');
+		ul.append('<li><a href="ha-result-detail-screen.html?plan='+value.title+'">'+value.title+'</a></li>');
 	});
 }
 
