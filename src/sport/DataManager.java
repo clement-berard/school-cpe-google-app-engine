@@ -34,12 +34,32 @@ public class DataManager extends HttpServlet{
 				datastore.put(accueil);
 
 				Entity sport1 = new Entity("sport");
-				sport1.setProperty("nom","Luge");
+				sport1.setProperty("nom","Run");
 				datastore.put(sport1);
 		
 				Entity sport2 = new Entity("sport");
-				sport2.setProperty("nom","Boxe");
+				sport2.setProperty("nom","Firness");
 				datastore.put(sport2);
+				
+				Entity sport3 = new Entity("sport");
+				sport3.setProperty("nom","Swimming");
+				datastore.put(sport3);
+				
+				Entity sport4 = new Entity("sport");
+				sport4.setProperty("nom","Tennis");
+				datastore.put(sport4);
+				
+				Entity sport5 = new Entity("sport");
+				sport5.setProperty("nom","Box");
+				datastore.put(sport5);
+				
+				Entity sport6 = new Entity("sport");
+				sport6.setProperty("nom","Soccer");
+				datastore.put(sport6);
+				
+				Entity sport7 = new Entity("sport");
+				sport7.setProperty("nom","Ping Pong");
+				datastore.put(sport7);
 		//
 		//		Entity sport3 = new Entity("sport");
 		//		sport3.setProperty("nom","Big patate");
