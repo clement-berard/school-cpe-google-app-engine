@@ -85,7 +85,12 @@
         	var data ;
         	
         	
-        	alert(decodeURIComponent(getParameter('plan')));
+        	if(decodeURIComponent(getParameter('plan'))){
+        		data = '{"plan" : "'+decodeURIComponent(getParameter('plan'))+'"}';	
+        	} else {
+        		data = '{"exo" : "'+decodeURIComponent(getParameter('plan'))+'"}';
+        	}
+        	
         	aS.entrainement(action, data,callbackSuccess,callbackError,loaderFunc); 
         	
             $("#e1").select2(); 

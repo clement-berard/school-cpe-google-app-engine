@@ -138,8 +138,9 @@ function getSearchPlanCallback(data){
 	console.log(data);
 	var ul = $('#sport_traning_search_plan > ul');
 	$.each( data, function( key, value ) {
+		console.log(data);
 		value = JSON.parse(value);
-		ul.append('<li><a href="ha-result-detail-screen.html?plan='+value.title+'">'+value.title+'</a></li>');
+		ul.append('<li><a href="ha-result-detail-screen.html?plan='+value.id+'">'+value.title+'</a></li>');
 	});
 }
 
@@ -162,7 +163,7 @@ function getSearchExoCallback(data){
 	var ul = $('#sport_traning_search_exos > ul');
 	$.each( data, function( key, value ) {
 		value = JSON.parse(value);
-		ul.append('<li><a href="#">'+value.title+'</a></li>');
+		ul.append('<li><a href="ha-result-detail-screen.html?exo='+value.id+'">'+value.title+'</a></li>');
 	});
 }
 
