@@ -163,7 +163,7 @@ function getSearchExoCallback(data){
 	var ul = $('#sport_traning_search_exos > ul');
 	$.each( data, function( key, value ) {
 		value = JSON.parse(value);
-		ul.append('<li><a href="ha-result-detail-screen.html?exo='+value.id+'">'+value.title+'</a></li>');
+		ul.append('<li><a href="ha-result-detail-screen.html?exo='+value.title+'">'+value.title+'</a></li>');
 	});
 }
 

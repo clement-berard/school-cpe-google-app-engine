@@ -136,12 +136,17 @@ public class PlanServlet extends HttpServlet{
 	public void details(HttpServletResponse response) throws IOException{
 		// Utilisation Query afin de rassembler les éléments a appeler/filter
 		JSONObject obj;
-		String valPlan  = (String) jC.getJsonObject().get("plan");
+		long valPlan = 0;
+		try{
+			valPlan = Long.parseLong((String) jC.getJsonObject().get("plan"));
+		}catch(Exception e){
+			
+		}
 		String valExo   = (String) jC.getJsonObject().get("exo");
 		
 		Query q = new Query("exercice");
 		
-		if(valPlan != null){
+		if(valPlan != 0 && valExo != ""){
 			q.addFilter("idPlan", Query.FilterOperator.EQUAL, valPlan);
 		} else {
 			q.addFilter("title", Query.FilterOperator.EQUAL, valExo);

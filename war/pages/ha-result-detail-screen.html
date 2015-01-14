@@ -84,11 +84,10 @@
         	var action = "details";
         	var data ;
         	
-        	
-        	if(decodeURIComponent(getParameter('plan'))){
+        	if(decodeURIComponent(getParameter('plan')) != 0){
         		data = '{"plan" : "'+decodeURIComponent(getParameter('plan'))+'"}';	
         	} else {
-        		data = '{"exo" : "'+decodeURIComponent(getParameter('plan'))+'"}';
+        		data = '{"exo" : "'+decodeURIComponent(getParameter('exo'))+'"}';
         	}
         	
         	aS.entrainement(action, data,callbackSuccess,callbackError,loaderFunc); 
