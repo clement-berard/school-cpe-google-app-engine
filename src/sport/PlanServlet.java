@@ -140,19 +140,15 @@ public class PlanServlet extends HttpServlet{
 		String valExo   = (String) jC.getJsonObject().get("exo");
 		
 		Query q = new Query("exercice");
-		Query queryPlan = new Query("plan");
-		// Récupération du résultat de la requète à l'aide de PreparedQuery
-		PreparedQuery pq = datastore.prepare(q);
-		PreparedQuery preparedQueryPlan = datastoreq.prepare(queryPlan);
+		
 		if(valPlan != null){
 			q.addFilter("idPlan", Query.FilterOperator.EQUAL, valPlan);
 		} else {
 			q.addFilter("title", Query.FilterOperator.EQUAL, valExo);
 		}
 		
-		
-
-		
+		// Récupération du résultat de la requète à l'aide de PreparedQuery
+		PreparedQuery pq = datastore.prepare(q);
 		JSONArray objArray = new JSONArray();
 		for (Entity result : pq.asIterable()) {
 			obj = new JSONObject();
