@@ -19,7 +19,6 @@ var input_s = $('#search_value_input'); // champs input de recherche
  * fonction qui appelle un WS pour avoir la liste de tous les sports
  */
 function getAllListSport(){
-	var ajaxSport = new ajaxSport();
 	ajaxSport.recherche("getAllSports",{},callbackSuccessItemsSports,callbackError,loaderFunc);
 }
 /**
@@ -104,7 +103,7 @@ function callbackIsConnectedToMakeSearch(data){
  * et on affiche tout, grace a different callback (en dessus de cette fonction)
  */
 function getResultSearch(){
-	var ajaxSport = new ajaxSport();
+	
 	var param = decodeURIComponent(getParameter('term'));
 	var exos = $('#sport_traning_search_exos');
 	var plans = $('#sport_traning_search_plan');
