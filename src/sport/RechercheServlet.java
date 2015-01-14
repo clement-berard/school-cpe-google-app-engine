@@ -76,9 +76,7 @@ public class RechercheServlet extends HttpServlet{
 		DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
 
 
-				Entity sport1 = new Entity("sport");
-				sport1.setProperty("nom","trompette");
-				datastore.put(sport1);
+			
 
 		Query q = new Query("sport");
 		// ReÌ�cupeÌ�ration du reÌ�sultat de la requeÌ€te aÌ€ lâ€™aide de PreparedQuery

@@ -84,3 +84,9 @@ function ajaxSport() {
 
 
 };
+
+
+function goBack(url){
+	alert(url);
+	window.location = url;
+}
