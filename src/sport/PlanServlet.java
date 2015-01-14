@@ -135,26 +135,24 @@ public class PlanServlet extends HttpServlet{
 	@SuppressWarnings("unchecked")
 	public void details(HttpServletResponse response) throws IOException{
 		// Utilisation Query afin de rassembler les éléments a appeler/filter
-		//String cat  = (String) jC.getJsonObject().get("term");
-		Query q = new Query("exercice");
-
-		Query qq = new Query("plan");
-		// Récupération du résultat de la requète à l'aide de PreparedQuery
-
-		PreparedQuery pqq = datastoreq.prepare(qq);
-		String title;
-		long key = 0;
-		List<String> myList = new ArrayList<String>();
 		JSONObject obj;
+		String valPlan  = (String) jC.getJsonObject().get("plan");
+		String valExo   = (String) jC.getJsonObject().get("exo");
 		
-		
-		for (Entity result : pqq.asIterable()) {
-			title = result.getProperty("title").toString();
-			key = result.getKey().getId();
-		}
-		//q.addFilter("idPlan", Query.FilterOperator.EQUAL, key);
-
+		Query q = new Query("exercice");
+		Query queryPlan = new Query("plan");
+		// Récupération du résultat de la requète à l'aide de PreparedQuery
 		PreparedQuery pq = datastore.prepare(q);
+		PreparedQuery preparedQueryPlan = datastoreq.prepare(queryPlan);
+		if(valPlan != null){
+			q.addFilter("idPlan", Query.FilterOperator.EQUAL, valPlan);
+		} else {
+			q.addFilter("title", Query.FilterOperator.EQUAL, valExo);
+		}
+		
+		
+
+		
 		JSONArray objArray = new JSONArray();
 		for (Entity result : pq.asIterable()) {
 			obj = new JSONObject();
