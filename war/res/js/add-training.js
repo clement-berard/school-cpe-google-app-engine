@@ -18,6 +18,7 @@ function loaderFunc(){}
 var table;
 var ii=1;
 var timeSec=0;
+var total=0;
 
 $( "#target" ).submit(function( event ) {
 	if(ii != 1){
@@ -46,25 +47,21 @@ function loaderFunc(){}
 $(	"#addExercice" ).click(function() {
 
 	var time ='';
-	var thisTime='';
 	if($("#hour").val()){
 		time = $("#hour").val() + 'h ';
 		timeSec += parseInt($("#hour").val()*3600);
-		thisTime = parseInt($("#hour").val()*3600);
 	}
 	if($("#min").val()){
 		time += $("#min").val() + 'min ';
 		timeSec += parseInt($("#min").val()*60);
-		thisTime += parseInt($("#min").val()*60);
 	}
 	if($("#sec").val()){
 		time += parseInt($("#sec").val() + 's');
-		timeSec = timeSec + parseInt($("#sec").val());
-		thisTime += timeSec + parseInt($("#sec").val());
+		timeSec += parseInt($("#sec").val());
 	}
-
-	addRow(ii, $("#titleDescription").val(),$("#exerciceDescription").val(), time, thisTime);
-	thisTime = parseInt(0);
+	
+	addRow(ii, $("#titleDescription").val(),$("#exerciceDescription").val(), time, timeSec);
+	timeSec = 0;
 	ii++;
 	$("#titleDescription").val('');
 	$("#exerciceDescription").val('');
@@ -90,10 +87,10 @@ function addRow(ii,title,description,duration, durationSec){
 }
 
 function display(totalSec){
-
-	var hours = parseInt( totalSec / 3600 ) % 24;
-	var minutes = parseInt( totalSec / 60 ) % 60;
-	var seconds = totalSec % 60;
+	total += totalSec;
+	var hours = parseInt( total / 3600 ) % 24;
+	var minutes = parseInt( total / 60 ) % 60;
+	var seconds = total % 60;
 
 	var result = (hours < 10 ? "0" + hours : hours) + ":" + (minutes < 10 ? "0" + minutes : minutes) + ":" + (seconds  < 10 ? "0" + seconds : seconds);
 	$("#totalTimeValue").text(result);	
