@@ -4,6 +4,12 @@ var ajaxSport = new ajaxSport();
 ajaxSport.recherche("getAllSports",{},callbackSuccessItemsSports,callbackError,loaderFunc);
 function callbackSuccessItemsSports(data){
 	console.log(data);
+	var le_select = $("#e1");
+	
+	$.each( data, function( key, value ) {
+		le_select.append('<option value="'+value+'">'+value+'</option>');
+	});
+	
 	
 }
 //callback vide par defaut, on peut reutiliser
