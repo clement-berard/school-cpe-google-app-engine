@@ -5,10 +5,7 @@ package sport;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
-import java.util.Map;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -17,18 +14,16 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
-import org.json.simple.parser.JSONParser;
-import org.json.simple.parser.ParseException;
 
 import sport.models.Exercice;
 import sport.models.Plan;
+import sport.models.User;
 
 import com.google.appengine.api.datastore.DatastoreService;
 import com.google.appengine.api.datastore.DatastoreServiceFactory;
 import com.google.appengine.api.datastore.Entity;
 import com.google.appengine.api.datastore.PreparedQuery;
 import com.google.appengine.api.datastore.Query;
-import com.google.appengine.labs.repackaged.org.json.JSONException;
 
 /**
  * @author rHumblot
@@ -60,7 +55,56 @@ public class PlanServlet extends HttpServlet{
 			details(response);
 		}else if(jC.getMethod().equalsIgnoreCase("getListPlanFromCat")){
 			getListPlanFromCat(response);
+		}else if(jC.getMethod().equalsIgnoreCase("setEntrainement")){
+			setTraining(response);
+		}else if(jC.getMethod().equalsIgnoreCase("getPersonnalData")){
+			getTraining(response);
 		}
+	}
+	
+	private void getTraining(HttpServletResponse response) throws IOException {
+		
+		String userId  = (String) jC.getJsonObject().get("id");
+		DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
+		Query q = new Query("user");
+		q.addFilter("id", Query.FilterOperator.EQUAL, userId);	
+		PreparedQuery pq = datastore.prepare(q);
+		JSONObject obj;
+		JSONArray objArray = new JSONArray();
+		for (Entity result : pq.asIterable()) {
+			obj = new JSONObject();
+			obj.put("plan", result.getProperty("plan").toString());
+			obj.put("title", result.getProperty("title").toString());
+			obj.put("date", result.getProperty("date").toString());
+			obj.put("duration", result.getProperty("duration").toString());
+			obj.put("statut", result.getProperty("statut"));
+
+			objArray.add(obj);
+		}
+		response.setContentType("application/json");
+		response.getWriter().write(objArray.toString());
+		response.getWriter().close();
+	}
+	
+	private void setTraining(HttpServletResponse resp) throws IOException {
+		User user = new User();
+		long id = 0, idTitle = 0, idPlan = 0;
+		try{
+			id = Long.parseLong((String) jC.getJsonObject().get("id"));
+			idTitle = Long.parseLong((String) jC.getJsonObject().get("idTitle"));
+			idPlan = Long.parseLong((String) jC.getJsonObject().get("idPlan"));
+		}catch(Exception e){
+			
+		}
+		
+		user.setId(id);
+		user.setIdPlan(idPlan);
+		user.setIdTitle(idTitle);
+		user.setDate((String) jC.getJsonObject().get("date"));
+		user.setDuration((String) jC.getJsonObject().get("duration"));
+		user.setStatut((String) jC.getJsonObject().get("statut"));
+		
+		user.Save();
 	}
 
 	private void getListPlanFromCat(HttpServletResponse resp) throws IOException {
