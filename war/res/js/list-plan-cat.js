@@ -35,7 +35,7 @@ function getListPlanCatCallback(data){
 		var table = $('#id_table_result');
 		$.each( data, function( key, value ) {
 			value = JSON.parse(value);
-			table.append('<tr><td>'+value.title+'</td><td><a class="btn btn-default" href="ha-result-detail-screen.html?idPlan='+value.id+'">View this plan</a></td></tr>');
+			table.append('<tr><td>'+value.title+'</td><td><a class="btn btn-default" href="ha-result-detail-screen.html?plan='+value.id+'">View this plan</a></td></tr>');
 		});
 		table.show();
 	}
